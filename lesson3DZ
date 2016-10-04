@@ -1,0 +1,58 @@
+package ru.geekbrains.java1.lesson31;
+
+import sun.security.util.Length;
+
+/**
+ * Created by QuantCapital on 04.10.2016.
+ */
+
+class Employees {
+    String Name;
+    String Position;
+    String Email;
+    String Call;
+    int zpl;
+    int Age;
+
+    // конструктор
+    public Employees() {
+        Name = "Rosh Blidovich";
+        Position = "Her professor";
+        Email = "bir@mail.ru";
+        Call = "22243";
+        zpl = 333;
+        Age = 33;
+    }
+
+    Employees(String _name, String _position, String _email, String _call, int _zpl, int _age) {
+        Name = _name;
+        Position = _position;
+        Email = _email;
+        Call = _call;
+        zpl = _zpl;
+        Age = _age;
+        //System.out.println("  Name  " + Name + "  Position  " + Position + "  Email  " + Email + "  Call  " + Call + "  Zpl  " + zpl + "  Age  " + Age);
+    }
+}
+
+
+public class Main2 {
+    public static void main(String[] args) {
+        Employees emp = new Employees("RB", "HP", "EL", "222", 22, 22);
+
+        Employees[] employees = new Employees[5];
+        employees[0] = new Employees("FR", "HP", "EL", "22222", 22, 50);
+        employees[1] = new Employees("FR", "HP", "EL", "22222", 22, 50);
+        employees[2] = new Employees("FR", "HP", "EL", "22222", 22, 50);
+        employees[3] = new Employees("FR", "HP", "EL", "22222", 22, 20);
+        employees[4] = new Employees("FR", "HP", "EL", "22222", 22, 30);
+
+        for (int i = 1; i < employees.length; i++)
+        {
+            if (employees[i].Age > 40) System.out.println("  Name  " + employees[i].Name + "  Position  " + employees[i].Position + "  Email  " + employees[i].Email + "  Call  " + employees[i].Call + "  Zpl  " + employees[i].zpl + "  Age  " + employees[i].Age);
+        }
+
+
+    }
+
+}
