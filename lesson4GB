@@ -1,0 +1,60 @@
+package ru.geekbrains.java1.lesson31;
+
+/**
+ * Created by QuantCapital on 04.10.2016.
+ */
+
+class Cat {
+    String name;
+    String color;
+    int age;
+
+    // конструкторы
+    public Cat() {
+        System.out.println("Это конструктор класса Cat");
+        name = "Barsik";
+        color = "White";
+        age = 1;
+    }
+    
+    // параметизированный конструктор
+    Cat(String _name, String _color, int _age) {
+        name = _name;
+        color = _color;
+        age = _age;
+    }
+    
+    // перезагрузка метода
+    Cat(String _name) {
+        name = _name;
+        color = "_Unknowm";
+        age = 1;
+    }
+    
+
+    
+}
+
+public class Main
+{
+
+    public static void main(String[] args) {
+        Cat c1 = new Cat();
+        Cat c2 = new Cat();
+        c1.name = "Barsik";
+        c1.color = "White";
+        c1.age = 4;
+        c2.name = "Muzik";
+        c2.color = "Black";
+        c2.age = 6;
+        
+        Cat c4 = new Cat("Barsik", "White", 2);
+
+        Cat c3 = new Cat();
+        System.out.println(c3.color);
+
+        System.out.println("Cat1 // Name: " + c1.name + " Color " + c1.color + " Age " + c1.age);
+        System.out.println("Cat2 // Name: " + c2.name + " Color " + c2.color + " Age " + c2.age);
+
+    }
+}
