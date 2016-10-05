@@ -1,0 +1,172 @@
+package ru.geekbrains.java1.lesson51;
+
+import java.util.Scanner;
+
+/**
+ * Created by QuantCapital on 05.10.2016.
+ */
+
+
+class Animal {
+    void jump() {System.out.println(" Начальные характеристики: Животные могут прыгать ");}
+    void swim() {System.out.println(" Начальные характеристики: Животные могут плавать ");}
+    void run() {System.out.println("  Начальные характеристики: Животные могут бегать  ");}
+
+
+    private int run, swim, jump;
+    public Animal( int _run, int _swim, int _jump) {
+        run = _run;
+        swim = _swim;
+        jump = _jump;
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void jump() {
+        System.out.println("Технические характеристики: Прыжок кошки составляет 5 метров! ");
+    }
+
+    void swim() {
+        System.out.println("Технические характеристики: Скорость плавания кошки составляет 1 км. ч.! ");
+    }
+
+    void run() {
+        System.out.println("Технические характеристики: Скорость бега кошки составляет 3 км. ч.! ");
+    }
+
+
+    String name;
+
+    public Cat(String _name, int _run, int _swim, int _jump) {
+        super(_run, _swim, _jump);
+        name = _name;
+
+        if (_run > 3) {
+            System.out.println( _name + " не может бегать сo скоростью в " + _run + " км. ч. ");
+        }
+        if (_swim > 1) {
+            System.out.println( _name + " не может плавать со скоростью в " + _swim + " км. ч. ");
+        }
+        if (_jump > 5) {
+            System.out.println( _name + " не может прыгать на высоту в " + _jump + " метров ");
+        }
+    }
+}
+
+class Horse extends Animal {
+    @Override
+    void jump() {
+        System.out.println("Технические характеристики: Прыжок лошади составляет 8 метров! ");
+    }
+
+    void swim() {
+        System.out.println("Технические характеристики: Скорость плавания лошади составляет 18 км. ч.! ");
+    }
+
+    void run() {
+        System.out.println("Технические характеристики: Скорость бега лошади составляет 35 км. ч.! ");
+    }
+
+
+    String name;
+
+    public Horse(String _name, int _run, int _swim, int _jump) {
+        super(_run, _swim, _jump);
+        name = _name;
+
+        if (_run > 35) {
+            System.out.println( _name + " не может бегать сo скоростью в " + _run + " км. ч. ");
+        }
+        if (_swim > 18) {
+            System.out.println( _name + " не может плавать со скоростью в " + _swim + " км. ч. ");
+        }
+        if (_jump > 8) {
+            System.out.println( _name + " не может прыгать на высоту в " + _jump + " метров ");
+        }
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void jump() {
+        System.out.println("Технические характеристики: Прыжок собаки составляет 3 метров! ");
+    }
+
+    void swim() {
+        System.out.println("Технические характеристики: Скорость плавания собаки составляет 8 км. ч.! ");
+    }
+
+    void run() {
+        System.out.println("Технические характеристики: Скорость бега собаки составляет 30 км. ч.! ");
+    }
+
+
+    String name;
+
+    public Dog(String _name, int _run, int _swim, int _jump) {
+        super(_run, _swim, _jump);
+        name = _name;
+
+        if (_run > 3) {
+            System.out.println( _name + " не может бегать сo скоростью в " + _run + " км. ч. ");
+        }
+        if (_swim > 8) {
+            System.out.println( _name + " не может плавать со скоростью в " + _swim + " км. ч. ");
+        }
+        if (_jump > 30) {
+            System.out.println( _name + " не может прыгать на высоту в " + _jump + " метров ");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String args[]) {
+
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Каким животным Вы владеете? ");
+        String animal = sc.next();
+
+        sc = new Scanner(System.in);
+        System.out.println("Какое имя у вашего животного? ");
+        String name = sc.next();
+
+        sc = new Scanner(System.in);
+        System.out.println("Введите параметр бега животного ");
+        int run = sc.nextInt();
+
+        sc = new Scanner(System.in);
+        System.out.println("Введите параметр плавания животного ");
+        int swim = sc.nextInt();
+
+        sc = new Scanner(System.in);
+        System.out.println("Введите параметр прыжка животного ");
+        int jump = sc.nextInt();
+
+        switch (animal) {
+            case "cat":
+                Cat c3 = new Cat(name, run,swim, jump);
+                System.out.println();
+                c3.run();
+                c3.swim();
+                c3.jump();
+                break;
+            case "horse":
+                Horse h1 = new Horse(name, run, swim, jump);
+                System.out.println();
+                h1.run();
+                h1.swim();
+                h1.jump();
+                break;
+            case "dog":
+                Dog d1 = new Dog(name, run, swim, jump);
+                System.out.println();
+                d1.run();
+                d1.swim();
+                d1.jump();
+        }
+    }
+}
+
+
