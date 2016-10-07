@@ -1,0 +1,62 @@
+package ru.geekbrains.java1.lesson61;
+
+import javax.imageio.IIOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
+/**
+ * Created by QuantCapital on 06.10.2016.
+ */
+public class CopyFile {
+    public static void main(String args[]) {
+        int i;
+        FileInputStream fin = null; // входной файл
+
+        try {
+            fin = new FileInputStream("C://1.txt");
+            String file = "C://4.txt";
+
+            do {
+                i = fin.read();
+                byte[] str = new byte[fin.available()];
+                fin.read(str);
+                String text1 = new String(str);
+                Files.write(Paths.get(file), text1.getBytes(), StandardOpenOption.APPEND);
+            } while (i != -1);
+            if (fin != null) fin.close();
+
+        } catch (IOException e) {
+            System.out.println(" Произошла ощшибка чтения файла ");
+        }
+
+        // поиск слова в файле и вывод названия на панель
+        int j;
+        FileInputStream slovo = null;
+        try {
+            slovo = new FileInputStream("C://5.txt");
+
+            do {
+                j = slovo.read();
+                if (j != -1) {
+                    byte[] str3 = new byte[slovo.available()];
+                    slovo.read(str3);
+                    String text2 = new String(str3);
+                    System.out.println(text2);
+                    boolean isContains = text2.contains("not");
+                    if (isContains == true) System.out.println("Слово найдено! ");
+                }
+                }
+                while (j != -1) ;
+                slovo.close();
+
+        } catch (IOException e) {
+            System.out.println(" Произошла ошибка в файле! ");
+        }
+
+    }
+}
