@@ -1,0 +1,175 @@
+package ru.geekbrains.java1.lesson81;
+
+/**
+ * Created by QuantCapital on 24.10.2016.
+ * есть аэропот домодедово
+
+ в нем есть много самолетов
+
+ реализовать класс для учета
+
+ самолет имеет название
+ название авиакомпании
+ количество двигателей (от 2 до 4)
+ местоположение (земля - взлетная полоса - воздух)
+ бортовой номер
+
+ самолет всегда имеет бортовой номер
+ количество двигателей
+ название авиакомпании
+
+ (есть самолеты без названия - не все самолеты именные - конструктор нужен для обеих вариантов)
+ название авиакомпании может меняться
+ количество двигателей и бортовой номер не меняются никогда
+
+ самолет может менять свой статус
+ (земля - впп - воздух) - переменная (0 1 2)
+ нельзя присвоить какую-то хуйню
+
+
+ Подсказка: для перевода статуса сделать свой метод с параметром, а статус скрыть прайветом и проверять на адекватность
+ Если это не 0 1 или 2 выводить сообщение об ошибке
+
+
+ Каждый самолет имеет три топливных бака
+ баки заполняются процентно от 0 до 100 - полный
+ Нужна возможность заполнить все баки одновременно на 50% (одной функцией)
+ так и возможность долить топливо в конкретный бак
+
+ на случай аварии у самолета должна быть возможность сбросить топливо
+ то есть обнулить количество топливо во всех баках
+
+ аэропорт просит программиста написать функцию, которая будет печатать полный отчет о самолетах
+ (название, статус, количетсво двигателей, топливо в баках)
+
+ Примечание:
+ Все названия адекватные
+ *
+ */
+public class Main {
+    public static void main(String[] args) {
+        aircraft air = new aircraft("Boeng-770", "TransAero", 4, 1253236);
+
+        air.location(1);
+
+        air.fueltankcondition(20, 15, 30);
+        air.fuelfilling();
+        air.report();
+    }
+}
+
+package ru.geekbrains.java1.lesson81;
+
+/**
+ * Created by QuantCapital on 24.10.2016.
+ */
+public class aircraft {
+    public String name;
+    public String airline;
+    private int engine;
+    private int onboard;
+    private int fueltanks = 3;
+    private int fueltank1 = 0;
+    private int fueltank2 = 0;
+    private int fueltank3 = 0;
+    private String location = "Location not specified ";
+    private int locationinfo;
+
+    public aircraft(String _name, String _airline, int _engine, int _onboard) {
+        name = _name;
+        airline = _airline;
+        engine = _engine;
+        onboard = _onboard;
+    }
+
+    public aircraft(String _airline, int _engine, int _onboard) {
+        airline = _airline;
+        engine = _engine;
+        onboard = _onboard;
+    }
+
+
+
+    public void location(int _locationinfo) {
+        locationinfo = _locationinfo;
+        if (locationinfo > 2) {
+            location = "Error status";
+            System.out.println("Info: Location statement: " + location);
+        }
+        else {
+            location = Integer.toString(locationinfo);
+            status();
+        }
+}
+
+    public void status() {
+        switch (location) {
+            case "0":
+                location = "Status Earth ";
+                System.out.println(location);
+                break;
+            case "1":
+                location = "Status Runway Strip ";
+                System.out.println(location);
+                break;
+            case "2":
+                location = "Status Air ";
+                System.out.println(location);
+        }
+    }
+
+    public void fueltankcondition(int _fueltank1, int _fueltank2, int _fueltank3) {
+        fueltank1 = _fueltank1;
+        fueltank2 = _fueltank2;
+        fueltank3 = _fueltank3;
+    }
+
+    public void fuelfilling() {
+        fueltank1 = (fueltank1*3)/2;
+        fueltank2 = (fueltank2*3)/2;
+        fueltank3 = (fueltank3*3)/2;
+        System.out.println("Info: Fueltanks statement: The fueltanks are filled up to 50%. ");
+    }
+
+    public void report() {
+        System.out.println();
+        System.out.println("*REPORT*");
+        System.out.println("Name: " + name);
+        System.out.println("Airline: " + airline);
+        System.out.println("Engine: " + engine);
+        System.out.println("Location: " + location);
+        System.out.println("Onboard: " + onboard);
+        System.out.println("Fueltanks: " + fueltanks);
+
+        if (fueltank1 == 0) System.out.println("Fueltank1: " + "Empty");
+        else if (fueltank1 <100) System.out.println("Fueltank1: " + fueltank1 + "%");
+        else if (fueltank1 >100) System.out.println("Fueltank1: " + "Error. The tank is full. ");
+
+        if (fueltank2 == 0) System.out.println("Fueltank2: " + "Empty");
+        else if (fueltank2 <100) System.out.println("Fueltank2: " + fueltank2 + "%");
+        else if (fueltank2 >100) System.out.println("Fueltank2: " + "Error. The tank is full. ");
+
+        if (fueltank3 == 0) System.out.println("Fueltank3: " + "Empty");
+        else if (fueltank3 <100) System.out.println("Fueltank3: " + fueltank3 + "%");
+        else if (fueltank3 >100) System.out.println("Fueltank3: " + "Error. The tank is full. ");
+    }
+}
+
+/** RESULT 
+ * Status Runway Strip 
+ Info: Fueltanks statement: The fueltanks are filled up to 50%. 
+
+ *REPORT*
+ Name: Boeng-770
+ Airline: TransAero
+ Engine: 4
+ Location: Status Runway Strip 
+ Onboard: 1253236
+ Fueltanks: 3
+ Fueltank1: 30%
+ Fueltank2: 22%
+ Fueltank3: 45%
+
+ Process finished with exit code 0
+ */
+
