@@ -1,0 +1,165 @@
+package ru.geekbrains.java1.lesson81;
+
+import java.util.Arrays;
+
+/**
+ * Created by QuantCapital on 01.11.2016.
+ */
+public class aircraftnew {
+    private String name;
+    public String airline;
+    private int engine_count;
+    private int board_number;
+    private float[] tanks = new float[3];
+    public enum status { STATUS_EARTH, STATUS_RUNWAYSTRIP, STATUS_AIR}
+    private status STATUS = status.STATUS_EARTH;
+
+    public aircraftnew(String _name, String _airline, int _engine_count, int _board_number) {
+        name = _name;
+        airline = _airline;
+        engine_count = setengine_count(_engine_count);
+        board_number = _board_number;
+        for (int i = 0; i < tanks.length; i++) {
+            tanks[i] = 0;
+        }
+        STATUS = status.STATUS_EARTH;
+    }
+    
+    public aircraftnew(String _airline, int _engine_count, int _board_number) {
+        name = "";
+        airline = _airline;
+        engine_count = setengine_count(_engine_count);
+        board_number = _board_number;
+        for (int i = 0; i < tanks.length; i++) {
+            tanks[i] = 0;
+        }
+        STATUS = status.STATUS_EARTH;
+    }
+    
+    private int setengine_count(int _enginecount) {
+        if (_enginecount > 4 || _enginecount < 2) engine_count = 3;
+        else engine_count = _enginecount;
+        return engine_count;
+    }
+    public status status()
+    {
+        return STATUS;
+    }
+    public void setSTATUS(status _status)
+    {
+        // JAVA пишет, что проверка нахрен не нужна. Потому что enum у нас задан и проинициализирован видимо
+        if (_status != status.STATUS_EARTH || _status != status.STATUS_AIR || _status != status.STATUS_RUNWAYSTRIP)
+            _status = STATUS;
+        else STATUS = _status;
+    }
+    public float[] tanks()
+    {
+       return tanks;
+    }
+    public  boolean setFuel(int tanknumber, float value) {
+        if (tanknumber < 0 || tanknumber > 2) return false;
+        if (value < 0 || value > 100) return false;
+        tanks[tanknumber] = value;
+        return true;
+    }
+    public float[] tanks50()
+    {
+        // если бак уже 50, то смысла его нет увеличивать до 50)) , поэтому цикл пропускает такой бак и проверяет следующий
+        for (int i = 0; i < tanks.length; i++) {
+            if (tanks[i] > 50) continue;
+            else tanks[i] = 50;
+        }
+        return tanks;
+    }
+    public void report() {
+        System.out.println();
+        System.out.println("*REPORT*");
+        System.out.println("Name: " + name);
+        System.out.println("Airline: " + airline);
+        System.out.println("Engine count: " + engine_count);
+        System.out.println("Board number: " + board_number);
+        System.out.println("Tanks count " + tanks.length);
+        System.out.println("Status aircraft: " + STATUS);
+
+        for (int i = 0; i < tanks.length; i++) {
+            System.out.println("Tank value " + i + " = " + tanks[i] + "%");
+        }
+    }
+}
+
+package ru.geekbrains.java1.lesson81;
+
+/**
+ * Created by QuantCapital on 24.10.2016.
+ * есть аэропот домодедово
+
+ в нем есть много самолетов
+
+ реализовать класс для учета
+
+ самолет имеет название
+ название авиакомпании
+ количество двигателей (от 2 до 4)
+ местоположение (земля - взлетная полоса - воздух)
+ бортовой номер
+
+ самолет всегда имеет бортовой номер
+ количество двигателей
+ название авиакомпании
+
+ (есть самолеты без названия - не все самолеты именные - конструктор нужен для обеих вариантов)
+ название авиакомпании может меняться
+ количество двигателей и бортовой номер не меняются никогда
+
+ самолет может менять свой статус
+ (земля - впп - воздух) - переменная (0 1 2)
+ нельзя присвоить какую-то хуйню
+
+
+ Подсказка: для перевода статуса сделать свой метод с параметром, а статус скрыть прайветом и проверять на адекватность
+ Если это не 0 1 или 2 выводить сообщение об ошибке
+
+
+ Каждый самолет имеет три топливных бака
+ баки заполняются процентно от 0 до 100 - полный
+ Нужна возможность заполнить все баки одновременно на 50% (одной функцией)
+ так и возможность долить топливо в конкретный бак
+
+ на случай аварии у самолета должна быть возможность сбросить топливо
+ то есть обнулить количество топливо во всех баках
+
+ аэропорт просит программиста написать функцию, которая будет печатать полный отчет о самолетах
+ (название, статус, количетсво двигателей, топливо в баках)
+
+ Примечание:
+ Все названия адекватные
+ *
+ */
+public class Main {
+    public static void main(String[] args) {
+        aircraftnew aircraftnew = new aircraftnew("222", 5, 33);
+        aircraftnew.status();
+        aircraftnew.setFuel(1, 60);
+        aircraftnew.setFuel(0, 54);
+        aircraftnew.setSTATUS(ru.geekbrains.java1.lesson81.aircraftnew.status.STATUS_AIR);
+        aircraftnew.setSTATUS(ru.geekbrains.java1.lesson81.aircraftnew.status.STATUS_AIR);
+        aircraftnew.tanks50();
+        aircraftnew.report();
+    }
+}
+
+//
+//*REPORT*
+//Name: 
+//Airline: 222
+//Engine count: 3
+//Board number: 33
+//Tanks count 3
+//Status aircraft: STATUS_EARTH
+//Tank value 0 = 54.0%
+//Tank value 1 = 60.0%
+//Tank value 2 = 50.0%
+
+//Process finished with exit code 0
+
+
