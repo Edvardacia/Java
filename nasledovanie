@@ -1,0 +1,149 @@
+//Нужно написать 1 класс и 2 наследника
+//Класс двигатель:
+//Любой двигатель имеет следующие характеристики (, название, и производитель , дата изготовления (класс времени)) +
+//2 наследника:
+//Реактивный двигатель (количество вращений в минуту и тип топлива (керосин и реактивное топливо (enum) +
+//Двигатель внутреннего сгорания (для авто) -количество цилиндров  и мощность 
+//Самое важное: (методы) 
+//У родителя : Напечатать отчет и заполнен у наследников +
+//У наследников: двигатель внутр сгорания (кол-во цилиндров от двух до двенадцати)  +
+//Реактивный - Количество вращений в минуту (от 0 до 20 000) +
+//Должно быть поле - Boolean - установлен двигатель на аппарате носителя или нет
+//Заполнить класс самолёт функцией установить двигатель - в качестве аргумента принимает объект класса реактивный двигатель - 
+//не может быть установлено два двигателя - должна быть проверка на производителя - 
+//Работа с динамической памятью 
+//Вносить в отчёт - 
+//SetEngine - сохранять 
+//Добавит в класс aircraft Boolean функция ready to fly - (готов к вылету) - считается true - 
+//если топливные баки заполнены на 50% и все двигатели установлены 
+//Сложности: хранить внутри класса - объекты другого класса - 
+//появится отдельная переменная engine - она изменяет длину массива в зависимости от количества двигателей. 
+
+package ru.geekbrains.java1.lesson81;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+/**
+ * Created by QuantCapital on 04.11.2016.
+ */
+class Engine {
+
+    public String name;
+    public String manufacturer;
+    public Calendar DateOfManufacturer;
+    public SimpleDateFormat DateofManufacturer = new SimpleDateFormat("yyyy MMM dd");
+
+
+
+    public Engine() {
+        name = "Pratt & Whitney JT8D";
+        manufacturer = "Pratt & Whitney";
+        DateOfManufacturer = new GregorianCalendar(1963,1,8);
+    }
+    public Engine(String _name, String _manufacturer, Calendar _DateOfManufacturer) {
+        name = _name;
+        manufacturer = _manufacturer;
+        DateOfManufacturer = _DateOfManufacturer;
+    }
+
+    void EngineReport() {
+        System.out.println();
+        System.out.println("*REPORT_ENGINE*");
+        System.out.println("Name: " + name);
+        System.out.println("Manufacturer: " + manufacturer);
+        System.out.println("Date of Manufacturer: " + DateofManufacturer.format(DateOfManufacturer.getTime()));
+    }
+}
+
+// дальше идут наследники - реактивный двигатель
+
+package ru.geekbrains.java1.lesson81;
+
+import java.util.Calendar;
+
+/**
+ * Created by QuantCapital on 04.11.2016.
+ */
+class Jet_Engine extends Engine {
+
+
+    private int Rotations_Count;
+    private enum FuelType { KEROSENE, JETFUEL}
+    private FuelType fuel_Type = FuelType.JETFUEL;
+
+    Jet_Engine(String _name, String _manufacturer, Calendar _DateOfManufacturer, int _Rotations_Count, FuelType _fuel_Type) {
+        super(_name, _manufacturer, _DateOfManufacturer);
+        Rotations_Count = setRotations_Count(_Rotations_Count);
+        fuel_Type = _fuel_Type;
+    }
+
+    Jet_Engine() {
+        super();
+        Rotations_Count = 15000;
+        fuel_Type = FuelType.KEROSENE;
+    }
+
+
+    private int setRotations_Count(int _Rotations_Count) {
+        if (_Rotations_Count < 0 || _Rotations_Count > 20000) Rotations_Count = 15000;
+        else Rotations_Count = _Rotations_Count;
+        return Rotations_Count;
+    }
+
+    @Override
+    void EngineReport() {
+        System.out.println();
+        System.out.println("*REPORT_ENGINE*");
+        System.out.println("Name: " + name);
+        System.out.println("Manufacturer: " + manufacturer);
+        System.out.println("Date of Manufacturer: " + DateofManufacturer.format(DateOfManufacturer.getTime()));
+        System.out.println("Rotations Count: " + Rotations_Count + " in a minute");
+        System.out.println("Fuel Type: " + fuel_Type);
+    }
+}
+
+// Двигатель внутреннего сгорания
+
+package ru.geekbrains.java1.lesson81;
+
+import java.util.Calendar;
+
+/**
+ * Created by QuantCapital on 04.11.2016.
+ */
+class ICE_engine extends Engine {
+
+    private int Cylinders_Count;
+    private int Power;
+
+    ICE_engine(String _name, String _manufacturer, Calendar _DateOfManufacturer, int _Cylinders_Count, int _Power) {
+        super(_name, _manufacturer, _DateOfManufacturer);
+        Cylinders_Count = setCylinders_Count(_Cylinders_Count);
+        Power = _Power;
+    }
+
+    ICE_engine() {
+        super();
+        Cylinders_Count = 3;
+        Power = 15000;
+    }
+
+    private int setCylinders_Count(int _Cylinders_Count) {
+        if (_Cylinders_Count > 4 || _Cylinders_Count < 2) Cylinders_Count = 3;
+        else Cylinders_Count = _Cylinders_Count;
+        return Cylinders_Count;
+    }
+
+    @Override
+    void EngineReport() {
+        System.out.println();
+        System.out.println("*REPORT_ENGINE*");
+        System.out.println("Name: " + name);
+        System.out.println("Manufacturer: " + manufacturer);
+        System.out.println("Date of Manufacturer: " + DateofManufacturer.format(DateOfManufacturer.getTime()));
+        System.out.println("Cylinders Count: " + Cylinders_Count);
+        System.out.println("Power: " + Power + " Watt");
+    }
+}
