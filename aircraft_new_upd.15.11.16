@@ -1,0 +1,186 @@
+package ru.geekbrains.java1.lesson81;
+
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by QuantCapital on 01.11.2016.
+ */
+public class aircraftnew {
+    private String name;
+    public String airline;
+    private int engine_count;
+    private int board_number;
+    private float[] tanks = new float[3];
+    public enum status { STATUS_EARTH, STATUS_RUNWAYSTRIP, STATUS_AIR}
+    private status STATUS = status.STATUS_EARTH;
+    private Jet_Engine jet_engine1;
+    private Jet_Engine jet_engine2;
+    public boolean setEngine;
+
+    public aircraftnew(String _name, String _airline, int _engine_count, int _board_number) {
+        name = _name;
+        airline = _airline;
+        engine_count = setengine_count(_engine_count);
+        board_number = _board_number;
+        for (int i = 0; i < tanks.length; i++) {
+            tanks[i] = 0;
+        }
+        STATUS = status.STATUS_EARTH;
+    }
+    public aircraftnew(String _airline, int _engine_count, int _board_number) {
+        name = "";
+        airline = _airline;
+        engine_count = setengine_count(_engine_count);
+        board_number = _board_number;
+        for (int i = 0; i < tanks.length; i++) {
+            tanks[i] = 0;
+        }
+        STATUS = status.STATUS_EARTH;
+    }
+
+    private int setengine_count(int _enginecount) {
+        if (_enginecount > 4 || _enginecount < 1) engine_count = 3;
+        else engine_count = _enginecount;
+        return engine_count;
+    }
+
+
+    public status status()
+    {
+        return STATUS;
+    }
+
+    public void setSTATUS(status _status)
+    {
+        // JAVA пишет, что проверка нахрен не нужна. Потому что enum у нас задан и проинициализирован видимо
+
+        if (_status != status.STATUS_EARTH || _status != status.STATUS_AIR || _status != status.STATUS_RUNWAYSTRIP)
+            _status = STATUS;
+        else STATUS = _status;
+    }
+
+    public float[] tanks()
+    {
+       return tanks;
+    }
+    public  boolean setFuel(int tanknumber, float value) {
+        if (tanknumber < 0 || tanknumber > 2) return false;
+        if (value < 0 || value > 100) return false;
+        tanks[tanknumber] = value;
+        return true;
+    }
+
+//    public boolean set_JetEngine(int _engine_count) {
+//        if (_engine_count > 0 || _engine_count <= 2) engine_count = _engine_count;
+//        else return false;
+//
+//        Jet_Engine[] jet_engine_count = new Jet_Engine[engine_count];
+//
+//        if (engine_count == 1) {
+//            jet_engine_count[0] = jet_engine1;
+//        }
+//        else {
+//            jet_engine_count[0] = jet_engine1;
+//            jet_engine_count[1] = jet_engine2;
+//        }
+//        return true;
+//    }
+
+
+    public boolean set_jetengine(Jet_Engine _jetEngine, Jet_Engine _jetEngine2) {
+        if (engine_count == 1) {
+            jet_engine1 = _jetEngine;
+            return setEngine = false;
+        } else {
+            jet_engine1 = _jetEngine;
+            jet_engine2 = _jetEngine2;
+            return setEngine = true;
+        }
+    }
+
+    public boolean set_jetengine(Jet_Engine _jetEngine) {
+        if (engine_count == 1) {
+            jet_engine1 = _jetEngine;
+            return setEngine = true;
+        } else {
+            return setEngine = false;
+        }
+    }
+
+
+    public float[] tanks50()
+    {
+        // если бак уже 50, то смысла его нет увеличивать до 50)) , поэтому цикл пропускает такой бак и проверяет следующий
+        for (int i = 0; i < tanks.length; i++) {
+            if (tanks[i] > 50) continue;
+            else tanks[i] = 50;
+        }
+        return tanks;
+    }
+
+    public void report() {
+        System.out.println();
+        System.out.println("*REPORT*");
+        System.out.println("Name: " + name);
+        System.out.println("Airline: " + airline);
+        System.out.println("Engine count: " + engine_count);
+        System.out.println("Board number: " + board_number);
+        System.out.println("Tanks count " + tanks.length);
+        System.out.println("Status aircraft: " + STATUS);
+        System.out.println();
+
+        if (setEngine == false) System.out.println("Set Jet Engine: " + "Engine are not installed");
+        else System.out.println("Set Jet Engine: " + "Engine installed");
+
+        for (int i = 0; i < tanks.length; i++) {
+            System.out.println("Tank value " + i + " = " + tanks[i] + "%");
+        }
+    }
+
+    public void reportJSON() {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("name", name);
+        data.put("airline", airline);
+        data.put("engine count", engine_count);
+        data.put("board number", board_number);
+        data.put("tanks count", tanks.length);
+        data.put("status aircraft", STATUS);
+
+        JSONObject json = new JSONObject();
+        json.put("aircraft", data);
+        System.out.printf("JSON: %s", json.toString(2));
+    }
+
+    public void outputReport() {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("name", name);
+        data.put("airline", airline);
+        data.put("engine count", engine_count);
+        data.put("board number", board_number);
+        data.put("tanks count", tanks.length);
+        data.put("status aircraft", STATUS);
+
+        JSONObject json = new JSONObject();
+        json.put("aircraft", data);
+        String str = json.toString();
+
+
+        try(FileOutputStream out = new FileOutputStream("C://aircraft.txt"))
+        {
+                byte[] buffer = str.getBytes();
+                out.write(buffer, 0, buffer.length);
+        }
+        catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+
