@@ -1,0 +1,63 @@
+import java.util.Set;
+
+/**
+ * Created by QuantCapital on 17.04.2017.
+ */
+
+class PhoneList {
+    String Phone;
+    String Email;
+
+    public PhoneList(String _Phone, String _Email) {
+        Phone = _Phone;
+        Email = _Email;
+    }
+    void report() {};
+}
+
+
+class PhoneBook extends PhoneList{
+    String Name;
+    HashMap<String, String> pb_phone = new HashMap<String, String>();
+    HashMap<String, String> pb_email = new HashMap<String, String>();
+
+    public PhoneBook(String _Name, String _Phone, String _Email) {
+        super(_Phone, _Email);
+        Name = _Name;
+        pb_phone.put(Name, Phone);
+        pb_email.put(Name, Email);
+    }
+
+    @Override
+    void report() {
+        super.report();
+        System.out.println();
+        System.out.println("PhoneBook");
+        Set<Map.Entry<String, String>> set = pb_phone.entrySet();
+        Set<Map.Entry<String, String>> set1 = pb_email.entrySet();
+
+        for (Map.Entry<String, String> o1:set1) {
+            for (Map.Entry<String, String> o : set) {
+                System.out.println(o.getKey() + " : " + o.getValue() + " : " + o1.getValue());
+            }
+        }
+        System.out.println();
+    }
+
+    void FindNumber() {
+        Set<Map.Entry<String,String>> set = pb_phone.entrySet();
+        for (Map.Entry<String, String> o:set) {
+            if (Name.equals(o.getKey())) {
+                System.out.println(o.getKey() + " : " +o.getValue());
+            }
+        }
+    }
+    void FindEmail() {
+        Set<Map.Entry<String,String>> set = pb_email.entrySet();
+        for (Map.Entry<String, String> o:set) {
+            if (Name.equals(o.getKey())) {
+                System.out.println(o.getKey() + " : " +o.getValue());
+            }
+        }
+    }
+}
