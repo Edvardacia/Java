@@ -1,0 +1,102 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Created by QuantCapital on 17.04.2017.
+ */
+public class MainDZ {
+    public static void main(String args[]) {
+        // Написал словарь
+
+        ArrayList<String> slovar = new ArrayList<String>();
+        slovar.add("Book");
+        slovar.add("Table");
+        slovar.add("Toy");
+        slovar.add("System");
+        slovar.add("Man");
+        slovar.add("Crossfit");
+        slovar.add("Argument");
+        slovar.add("Intelligence");
+        slovar.add("Sister");
+        slovar.add("Good");
+        slovar.add("Fantastic");
+        slovar.add("Linked");
+        slovar.add("Event");
+        slovar.add("Driven");
+        slovar.add("Quantum");
+        slovar.add("Endowment");
+        slovar.add("Effect");
+        slovar.add("Cry");
+        slovar.add("Integration");
+        slovar.add("Matrix");
+        slovar.add("Matrix");
+        slovar.add("Matrix");
+
+        // Преобразовываю это в массив
+        String slovo[] = new String[slovar.size()];
+        slovo = slovar.toArray(slovo);
+
+
+        // Сколько раз употребляется слово Matrix
+        int Matrix = 0;
+        for (int i = 0; i < slovo.length; i++) {
+            switch (slovo[i]) {
+                case "Matrix":
+                    Matrix++;
+                    if (Matrix > 1) {
+                        slovar.remove("Matrix");
+                    }
+                    break;
+            }
+        }
+        System.out.println(slovar);
+
+
+        // Приваиваю ключу - слову Matrix значение , которое характеризует его объем
+        HashMap<String, Integer> hm = new HashMap<String, Integer>();
+        hm.put("Matrix", Matrix);
+        Set<Map.Entry<String, Integer>> set = hm.entrySet();
+        for (Map.Entry<String, Integer> o:set) {
+            System.out.print(o.getKey() + " : ");
+            System.out.println(o.getValue());
+        }
+        System.out.println();
+
+        // Ввожу новый словарь уже без повторений
+
+
+        String new_slovo[] = new String[slovar.size()];
+        new_slovo = slovar.toArray(new_slovo);
+
+        // Задал предложение
+        String text = "Man in the Matrix";
+
+        // Надо найти слова из словаря.
+        // Преобразовываю в набор слов.
+        String[] text_sl = text.trim().split("\\s+");
+        for (int i = 0; i < text_sl.length; i++) {
+            System.out.println(text_sl[i]);
+        }
+
+        // Задаю динамический массив для учета количества слов, так как заранее неизвестно
+        ArrayList<Integer> vol_sl = new ArrayList<Integer>();
+
+        for (int i = 0; i < text_sl.length; i++) {
+            for (int j = 0; j < new_slovo.length; j++) {
+                if (text_sl[i].equals(new_slovo[j])) {
+                    vol_sl.add(j);
+                }
+            }
+        }
+
+        System.out.println(vol_sl);
+
+        PhoneBook s = new PhoneBook("Grigoryan", "89017530800", "xredox@yandex.ru");
+        s.report();
+        s.FindNumber();
+        s.FindEmail();
+    }
+
+}
