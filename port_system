@@ -1,0 +1,192 @@
+import com.sun.deploy.security.ValidationState;
+
+/**
+ * Created by QuantCapital on 21.04.2017.
+ */
+// Написать класс корабль.
+//        Корабль при создании имеет следующии характеристики:
+//        - Название
+//        - Идентификатор
+//        - Тоннаж
+//        - Тип корабля (военный / гражданский)
+//        - Статус (в плавании / на очереди / в порту)
+//        Корабль должен уметь писать отчет о себе
+//        Важный момент: при регистрации в порту, если кораблю отказано в регистрации, его статус должен поменяться на "в очереди". Если корабль удаляется из порта (покидает порт),
+//        его статус должен поменяться на "в плавании". Если корабль зашел в порт, его статус должен изменитсья на "в порту".
+
+public class ship {
+    private String name;
+    private int registration;
+    public enum type { TYPE_CIVIL, TYPE_MILITARY, TYPE_CARGO }
+    public enum status { STATUS_INSWIMMING, STATUS_PENDING, STATUS_INPORT}
+    private type TYPE;
+    public status STATUS;
+    private int tonnage;
+
+    public ship(String _name, int _registration, type _TYPE, status _STATUS, int _tonnage) {
+        name = _name;
+        registration = _registration;
+        TYPE = _TYPE;
+        STATUS = _STATUS;
+        tonnage = _tonnage;
+    }
+
+    // Создал метод, чтобы получить тип корабля. При этом не дать возможность этот тип изменить внешне.
+    public type ship_TYPE() {
+        return TYPE;
+    }
+    public String ship_NAME() {
+        return name;
+    }
+    public int REG() {
+        return registration;
+    }
+
+    public void report() {
+        System.out.println();
+        System.out.println(" *REPORT SHIP* ");
+        System.out.println("Name: " + name);
+        System.out.println("Registration: " + registration);
+        System.out.println("Type: " + TYPE);
+        System.out.println("Status: " + STATUS);
+        System.out.println("Tonnage: " + tonnage);
+    }
+}
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+
+
+/**
+ * Created by QuantCapital on 21.04.2017.
+ */
+
+//Написать класс порт, удовлетворяющий следующим условиям:
+// - Каждый порт при создании имеет следующие параметры:
+// - Название
+// - Тип порта (гражданский / военный) (рекомендуется использовать enum)
+// - Вместимость
+
+public class port {
+    private String name;
+    public enum status { STATUS_CIVIL, STATUS_MILITARY, STATUS_CARGO }
+    private status STATUS;
+    private int capacity;
+    private int port_loading = 0; // Объем загрузки порта
+    private ship Ship;
+    private HashMap<Integer, String> listship = new HashMap<Integer, String>();
+
+    public port(String _name, status _status, int _capacity ) {
+        name = _name;
+        STATUS = _status;
+        capacity = _capacity;
+    }
+
+// - Порт должен иметь возможность принимать в себя корабли, то есть содержать в себе функцию register,
+//   выполняющую следующий функционал:
+//  1. Если в порту меньше кораблей чем он может в себе содержать, то корабль сразу помещается в порт,
+//  и функция возвращает значение true.
+//  2. Если порт заполнен, то кораблю отказывается в заходе в порт, и функция возвращает значение false.
+//  3. Если в гражданский порт пытается зайти военный корабль, функция возвращает значение false.
+
+
+    public ship register(ship _ship) {
+        Ship = _ship;
+        if (port_loading < capacity && STATUS == status.STATUS_CIVIL && Ship.ship_TYPE() == ship.type.TYPE_CIVIL) {
+            port_loading++;
+            Ship.STATUS = ship.status.STATUS_INPORT;
+            System.out.println("Судно " + Ship.ship_NAME() + " успешно зашло в порт " + name);
+            List_Ship();
+            return Ship;
+        }
+        else if (port_loading < capacity && STATUS == status.STATUS_MILITARY && Ship.ship_TYPE() == ship.type.TYPE_MILITARY) {
+            port_loading++;
+            Ship.STATUS = ship.status.STATUS_INPORT;
+            System.out.println("Судно " + Ship.ship_NAME() + " успешно зашло в порт " + name);
+            List_Ship();
+            return Ship;
+        }
+        else if (port_loading < capacity && STATUS == status.STATUS_CARGO && Ship.ship_TYPE() == ship.type.TYPE_CARGO) {
+            port_loading++;
+            Ship.STATUS = ship.status.STATUS_INPORT;
+            System.out.println("Судно " + Ship.ship_NAME() + " успешно зашло в порт " + name);
+            List_Ship();
+            return Ship;
+        }
+        else if (port_loading > capacity){
+            Ship.STATUS = ship.status.STATUS_PENDING;
+            return Ship;
+        }
+        else {
+            System.out.println("Судно " + Ship.ship_NAME() + " не может зайти в порт " + name + " так как имеет тип " +
+            Ship.ship_TYPE() + " а порт имеет статус " + STATUS);
+            return Ship;
+        }
+    }
+
+//    Функция должна писать сообщения в консоль о добавлении корабля в порт или об ошибках.
+//    Каждый корабль имеет уникальное имя и идентификатор. Класс порт должен иметь возможность печатать список кораблей, которые в нём находятся в данный момент времени.
+//    Также класс порт должен уметь удалять из себя корабли. Функция unregister принимает в себя идентификатор корабля и удаляет корабль.
+//    Также нужна функция которая пишет полный отчет о состоянии порта.
+//    Рекомендации:
+//    Для хранения информации о кораблях можно использовать массив. При добавлении корабля просто добавлять элемент в массив, а при удалении корабля из порта (по идентификатору), искать номер данного корабля в массиве, и удалять нужный элемент массива.
+
+    private void List_Ship() {
+        listship.put(Ship.REG(), Ship.ship_NAME());
+    }
+
+    public void report() {
+        System.out.println();
+        System.out.println(" *REPORT PORT* ");
+        System.out.println("Name: " + name);
+        System.out.println("Status: " + STATUS);
+        System.out.println("Capacity: " + capacity);
+        System.out.println("Port loading: " + port_loading);
+        System.out.println();
+        System.out.println(" *SHIP IN PORT* ");
+        Set<Map.Entry<Integer, String>> set = listship.entrySet();
+        for (Map.Entry<Integer, String> o:set) {
+            System.out.println(o.getKey() + " : " + o.getValue());
+        }
+    }
+}
+
+
+
+/**
+ * Created by QuantCapital on 21.04.2017.
+ */
+public class MainClass {
+    public static void main(String[] args) {
+        ship Ship1 = new ship("USS. Dwight D. Eisenhower", 69, ship.type.TYPE_CIVIL, ship.status.STATUS_INSWIMMING, 97000);
+        ship Ship2 = new ship("USS. George Washington", 73, ship.type.TYPE_CIVIL, ship.status.STATUS_INSWIMMING, 97000);
+        ship Ship3 = new ship("Berge Stahl", 8420804, ship.type.TYPE_CARGO, ship.status.STATUS_INSWIMMING, 175720);
+        ship Ship4 = new ship("Harmony of the Seas", 9682875, ship.type.TYPE_MILITARY, ship.status.STATUS_INSWIMMING, 225282);
+
+        port Port1 = new port("Pearl Harbor", port.status.STATUS_CIVIL, 5);
+        port Port2 = new port("Novorossisk", port.status.STATUS_CARGO, 5);
+
+        Port1.register(Ship1);
+        Port1.report();
+    }
+}
+
+
+// Консоль:
+
+Судно USS. Dwight D. Eisenhower успешно зашло в порт Pearl Harbor
+
+ *REPORT PORT* 
+Name: Pearl Harbor
+Status: STATUS_CIVIL
+Capacity: 5
+Port loading: 1
+
+ *SHIP IN PORT* 
+69 : USS. Dwight D. Eisenhower
+
+Process finished with exit code 0
+
+
