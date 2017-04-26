@@ -1,0 +1,76 @@
+import java.awt.*;
+
+/**
+ * Created by QuantCapital on 26.04.2017.
+ */
+public class User {
+    public String name;
+    public String surname;
+    public enum USER_STATUS { ISAVAILABLE, BUSY }
+    public USER_STATUS status;
+    public Image icon;
+    private String id;
+    public String key;
+    private String login;
+
+    public User(String _id) {
+        id = _id;
+    }
+    public String id() {return id; };
+}
+
+
+
+import java.sql.Date;
+
+/**
+ * Created by QuantCapital on 26.04.2017.
+ */
+public class Message {
+    private String textmessage;
+    private Date currentDate;
+    public enum MESSAGE_STATUS { SENT, DELIVERED, READ }
+    public MESSAGE_STATUS status;
+    public User sender;
+    public User recipient;
+
+    public Message(String _textmessage, User _sender, User _recipient) {
+        textmessage = _textmessage;
+        sender = _sender;
+        recipient = _recipient;
+    }
+}
+
+
+
+import java.awt.*;
+import java.util.HashMap;
+
+/**
+ * Created by QuantCapital on 26.04.2017.
+ */
+public class Group {
+    public String name;
+    public Image icon;
+    public User owner;
+    private HashMap <String, User> users;
+
+    public Group(String _name, User _owner) {
+        name = _name;
+        owner = _owner;
+        users = new HashMap<String, User>();
+    }
+
+    public void adduser(User _user) {
+        users.put(_user.id(), _user);
+    }
+
+    public void removeuser(User _user) {
+        users.remove(_user.id(), _user);
+    }
+
+    public void userlist() {
+        users.size();
+    }
+}
+
