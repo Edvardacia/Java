@@ -1,0 +1,165 @@
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Иван", "Гусев", "менеджер", 38, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Григорий", "Распутин", "мятежник", 68, 5, 150000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Мария", "Путина", "секретарь", 22, 5, 100000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Елена", "Арго", "секретарь", 22, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Федер", "Круглов", "хуйсгоры", 38, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Иван", "Макаров", "менеджер", 58, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Эдуард", "Сахаров", "заместитель директора", 68, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Антон", "Павлов", "разработчик", 25, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Кирилл", "Раков", "администратор", 38, 5, 300000,
+50000, "misha@yandex.ru");
+
+INSERT INTO employee_data
+(f_name, l_name, title, age, yos, salary, perks, email)
+values
+("Рудольф", "Курочкин", "программист", 34, 2, 95000,
+17000, "rudolf@yandex.ru");
+
+
+SELECT f_name, l_name from employee_data where f_name = 'Иван';
+SELECT f_name, l_name from employee_data where age > 32;
+SELECT f_name, l_name from employee_data where salary > 120000;
+SELECT f_name, l_name from employee_data where yos < 3;
+SELECT f_name, l_name from employee_data where f_name LIKE "Р%";
+
+SELECT f_name, l_name, title from employee_data
+where title LIKE '%про%';
+
+SELECT title, AVG(salary)
+from employee_data
+GROUP BY title
+HAVING AVG(salary) > 100000;
+
+SELECT title, AVG(age)
+from employee_data
+GROUP BY title
+HAVING AVG(age) > 30;
+
+DELETE from employee_data
+where l_name = 'Раков';
+
+SELECT f_name, l_name from employee_data
+where salary > 70000 AND salary < 90000;
+
+SELECT l_name from employee_data where
+l_name LIKE 'К%' OR l_name LIKE 'Л%';
+
+SELECT f_name, l_name, age from employee_data
+where (l_name not LIKE 'K%' OR l_name not LIKE 'Л%') AND age < 30;
+
+SELECT f_name, l_name, title from employee_data
+where title not LIKE "%программист";
+
+SELECT f_name, l_name, title from
+employee_data where title not IN
+('программист');
+
+SELECT f_name, l_name, age from
+employee_data where age between
+32 AND 40;
+
+SELECT f_name, l_name, salary
+from employee_data where salary
+not between
+90000 AND 150000;
+
+SELECT f_name, l_name, age
+from employee_data
+order BY age;
+
+SELECT f_name from employee_data
+order BY f_name DESC;
+
+SELECT f_name, l_name from
+employee_data LIMIT 5;
+
+SELECT f_name, l_name, age from
+employee_data order BY age LIMIT 4;
+
+SELECT f_name, l_name,
+age from employee_data order BY age LIMIT 2;
+
+SELECT f_name, l_name from
+employee_data LIMIT 6, 3;
+
+SELECT title from employee_data;
+SELECT DISTINCT title from employee_data;
+
+SELECT DISTINCT age from employee_data
+order BY age;
+
+UPDATE employee_data SET
+salary = 220000, perks = 55000
+where title = 'директор';
+
+SELECT MIN(salary) from employee_data;
+SELECT MAX(salary) from employee_data;
+SELECT SUM(salary) from employee_data;
+SELECT SUM(perks) from employee_data;
+SELECT SUM(salary) + SUM(perks) from employee_data;
+SELECT AVG(age) from employee_data;
+SELECT AVG(salary) from employee_data;
+
+SELECT AVG(salary) AS
+'Средняя зарплата' from
+employee_data;
+
+SELECT (SUM(perks)/SUM(salary)*100)
+AS 'Процент надбавок' from
+employee_data;
+
+SELECT title from employee_data
+GROUP BY title;
+
+SELECT title, count(*) AS Number
+from employee_data
+GROUP BY title
+order BY Number;
+
+ABS(-5);
+ASIN(3);
+
+SELECT CONCAT('My', 'S', 'QL');
