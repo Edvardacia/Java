@@ -1,0 +1,59 @@
+// Реляционная база данных представляет по сути двухмерную таблицу
+// JDBC
+import java.sql
+Class.forName("com.mysql.jdbc.Driver");
+Connection dbh = DriverManager.getConnection(url, user, password);
+// Где URL имеет формат jdbc:mysql://сервер/база данных
+executeQuery() // ожидаем ответ от базы данных
+executeUpdate() // хотим какие-то данные ввести
+
+// 1 этап - подключить драйвер - Выделяем проект Project -> Properties -> Java Build Path ->
+// -> Libraries -> Add External Jars -> Выбираем библиотеку
+
+// 2 этап - в Reference Libraries - проверить наличие подключенной библиотеки
+
+public class Test {
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost/cars";
+		Connection con = null;
+		try {
+			String driver = "com.mysql.jdbc.Driver";
+			Class.forName(driver);
+
+
+		}
+		catch(Exception e) {
+			System.out.println("Error of loading the driver");
+			return;
+		}
+		try {
+			con = DriverManager.getConnection(url, "xredox", "S!k734dT");
+			Statement select = con.createStatement();
+			ResultSet result = select.executeQuery("select * from models");
+			while(result.next()) {
+				int key = result.getInt(1); // считываем id табл. , 1 столбец - 1 вариант
+				int key = result.getInt("id_model"); // считываем id табл. , название столбца - 2 вариант
+				String val = result.getString("model_name");
+				System.out.println("key" + key);
+				System.out.println("val" + val);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
+
+
+
+
